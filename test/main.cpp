@@ -3,20 +3,20 @@
 struct Node { //создание структуры односвязанного списка
     int data;
     struct Node* next;
+    
 };
-struct Node* top = NULL;
 
-void push(int val) { //функция push в которой содаются новые узлы односвязанного списка 
+
+void push(int val,Node** top) { //функция push в которой содаются новые узлы односвязанного списка 
     Node* newnode = new Node;
     newnode->data = val;
-    newnode->next = top;
-    top = newnode;
+    newnode->next = *top;
+    *top = newnode;
 };
 
-void deleteAllNodes() { //удаление динамической памяти
-    Node* temp = new Node;
+void deleteAllNodes(Node* top) { //удаление динамической памяти
     while (top != NULL) {
-        temp = top;
+        Node* temp = top;
         top = top->next;
         delete(temp);
     }
@@ -24,7 +24,7 @@ void deleteAllNodes() { //удаление динамической памяти
 
 int main() {
     int val;
-
+    struct Node* top = NULL;
     std::cout << "Enter values into the stack (type 0 to exit):\n";
     while (true) { //ввод чисел в стек, 0 это точка окончания ввода чисел + проверка на правильность ввода с клавиатуры
         std::cin >> val;
@@ -35,7 +35,7 @@ int main() {
             continue;
         }
         if (val == 0)break;
-        push(val);
+        push(val, &top);
     }
 
     std::cout << "\nValues in the stack:\n";
@@ -44,6 +44,6 @@ int main() {
                 std::cout << top->data << " ";
             top = top->next;
     }
-    deleteAllNodes();
+    deleteAllNodes(top);
     return 0;
 }
